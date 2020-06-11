@@ -1,4 +1,44 @@
 body {
   margin: 0;
+  background-color:#191414 ;
+  color: 	#ffffff
 }
 
+ol {
+  padding: 0;
+}
+
+ol > li {
+  background-color: #383838;
+  height: 30px;
+  border: 1px solid #333333;
+  list-style-position: inside;
+  margin-left: 0;
+  font-size: 20px;
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+  background-color: 	#333333;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  
+}
+ul > li {
+    
+    justify-self: center;
+    display: inline;
+    list-style: none;
+    margin: 15px 25px;
+}
+
+button, a {
+  background-color: 	#333333;
+  color: 	#ffffff;
+  border: none;
+  font-size: 30px;
+}

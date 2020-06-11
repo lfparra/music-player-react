@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import './index.css';
-import App from './App';
+import MusicControl from './components/musicControl';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MusicControl />
   </React.StrictMode>,
   document.getElementById('root')
 );
