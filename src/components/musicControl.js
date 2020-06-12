@@ -90,7 +90,7 @@ function MusicControl() {
                             <div className="setList" data-spy="scroll" data-target="#setList">
                                 <ol> {state.songs.map((elem, index, arr) => {
                                     return <li>{elem.name}</li>
-                                })}
+                                    })}
                                 </ol>
                             </div>
                             <div className="musicControl">
