@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function MusicControl() {
 
     const [state, setState] = useState({
 
         playBottom: null,
-        songs: [
+        songs: [],
+        canciones: [
             { id: 1, category: "game", name: "Mario Castle", url: "files/mario/songs/castle.mp3" },
             { id: 2, category: "game", name: "Mario Star", url: "files/mario/songs/hurry-starman.mp3" },
             { id: 3, category: "game", name: "Mario Overworld", url: "files/mario/songs/overworld.mp3" },
@@ -47,7 +48,7 @@ function MusicControl() {
         let { playSong } = state;
         console.log(e);
         if (e === true) {
-            if (playSong == 0) {            
+            if (playSong == 0) {
             } else {
                 playSong--;
                 state.playBottom.autoplay = true;
@@ -62,41 +63,68 @@ function MusicControl() {
         }
         setState({ ...state, playSong })
     }
-    
+
+    const getSongs = (url) => {
+        fetch(url)
+            .then((resp) => {
+                return resp.json()
+            })
+            .then((data) => {
+                setState(prevState => {
+                    return { ...prevState, songs: data }
+                })
+            })
+    }
+
+    useEffect(() => {
+        getSongs("https://assets.breatheco.de/apis/sound/songs")
+    }, [])
+
+
     return (
         <>
-            <div className="setList">
-                <ol>
-                    {
-                        state.songs.map((elem, index, arr) => {
-                        return <li>{elem.name}</li> 
-                        })
-                    }
-
-                </ol>
-            </div>
-            <div className="musicControl">
-                <ul>
-                    <li>
-                        <button onClick={(e) => handleClick(true)}>
-                            <i className="fas fa-backward"></i>
-                            <audio ref={(t) => state.playBottom = t} src={path + state.songs[state.playSong].url}></audio>
-                        </button>
-                    </li>
-                    <li>
-                        <button onClick={(e) => player(e)}>
-                            <i className="fas fa-play"></i>
-                            <audio ref={(t) => state.playBottom = t} src={path + state.songs[state.playSong].url}></audio>
-                        </button>
-                    </li>
-                    <li>
-                        <button onClick={(e) => handleClick(false)}>
-                            <i className="fas fa-forward"></i>
-                            <audio ref={(t) => state.playBottom = t} src={path + state.songs[state.playSong].url}></audio>
-                        </button>
-                    </li>
-                </ul>
-            </div>
+            {
+                state.songs.length > 0 ?
+                    (
+                        <>  
+                            <div className="setList" data-spy="scroll" data-target="#setList">
+                                <ol> {state.songs.map((elem, index, arr) => {
+                                    return <li>{elem.name}</li>
+                                })}
+                                </ol>
+                            </div>
+                            <div className="musicControl">
+                                <ul>
+                                    <li>
+                                        <button onClick={(e) => handleClick(true)}>
+                                            <i className="fas fa-backward"></i>
+                                            <audio ref={(t) => state.playBottom = t} src={path + state.songs[state.playSong].url}></audio>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button onClick={(e) => player(e)}>
+                                            <i className="fas fa-play"></i>
+                                            <audio ref={(t) => state.playBottom = t} src={path + state.songs[state.playSong].url}></audio>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button onClick={(e) => handleClick(false)}>
+                                            <i className="fas fa-forward"></i>
+                                            <audio ref={(t) => state.playBottom = t} src={path + state.songs[state.playSong].url}></audio>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </>
+                    ) :
+                    (
+                        <div className="text-center ">
+                            <div className="spinner-border text-warning" role="status">
+                                <h2 className="sr-only">Loading...</h2>
+                            </div>
+                        </div>
+                    )
+            }
 
         </>
     );
